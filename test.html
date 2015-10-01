@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<HTML>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://www.w3schools.com/w3css/w3.css">
+   <HEAD>
+      <TITLE>Word Test</TITLE>
+	  <script type = "text/javascript">
+	  
+		var global_total_words;
+		var fin_array = [[]];
+		
+		function readTextFile(file){
+			//alert("readTextFile - start")
+			var rawFile = new XMLHttpRequest();
+			rawFile.open("GET", file, true);
+			//var allText = rawFile.responseText;
+			//alert(allText);
+			//alert("opened");
+			rawFile.onreadystatechange = function ()
+			{
+				//alert("onreadystatechange");
+				if(rawFile.readyState === 4)
+				{
+					//alert("readyState === 4");
+					if(rawFile.status === 200 || rawFile.status == 0)
+					{
+						//alert("rawFile.status === 200 || rawFile.status == 0");
+						var allText = rawFile.responseText;
+						//alert(allText);
+						arrayBana(allText);
+					}
+				}
+			}
+			rawFile.send();
+		}
+		
+		function runNinu(){
+			hide_meaning();
+			readTextFile("Quizlet_800_db.csv");
+		}
+		
+		function arrayBana(rawText){
+			var rawArray = rawText.split("\n");
+			//alert(rawArray.length);
+			//alert(window.location.search.replace("?", ""));
+			var arr = window.location.search.replace("?", "").split("&"); //num_words=400&difficulty=medium
+
+			//Getting Start Index
+			var start_index_arr = arr[0].split("=");
+			var start_index = start_index_arr[1] -1;
+			
+			//Getting End Index
+			var end_index_arr = arr[1].split("=");
+			var end_index = end_index_arr[1]-1;
+			
+			//Getting Difficulty
+			var diff_array = arr[2].split("=");
+			var diff = diff_array[1];
+			
+			//alert("start_index = "+start_index);
+			//alert("end_index = "+end_index);
+			//alert("diff = "+diff);
+			
+			var words_to_do = parseInt((end_index-start_index+1)*diff/100);
+			
+			//alert(words_to_do+"words_to_do");
+			
+			global_total_words=words_to_do;
+			set_words_left(words_to_do-1);
+			form_sorted_list(rawArray, start_index, end_index, words_to_do);
+			
+			//console.log("Here shit!");
+		}
+		
+		function form_sorted_list(rawArray, start_index, end_index, words_to_do){
+			//var fin_array = [[]];
+			var total_num_words = end_index - start_index; 
+			var top = -1;
+			for(var i=start_index; i<=end_index; i++){
+				fin_array[++top] = [];
+				fin_array[top][0] = rawArray[i];
+				fin_array[top][1] = parseInt(Math.random()*total_num_words);
+			}
+			fin_array.sort(compareSecondColumn);
+			
+			//////
+			 for(var z = 0; z < fin_array.length; z++) {
+			  console.log(fin_array[z][0]+" -- "+fin_array[z][1]);
+			  }
+			//alert("printed to console.log");
+			//////
+			print_word_and_meaning(fin_array[0][0]);
+			
+		}
+		function compareSecondColumn(a, b) {
+			if (a[1] === b[1]) {
+				return 0;
+			}
+			else {
+				return (a[1] < b[1]) ? -1 : 1;
+			}
+		}
+		
+		function runNinuIteration(){
+			hide_meaning();
+			var words_left = parseInt(get_words_left());
+			if(words_left <= 0){
+				alert("Set Complete!");
+				window.location = "index.html"
+			}
+			var current_word_number = global_total_words - words_left ; //-1 to adjust for indices
+			var current_word = fin_array[current_word_number][0];
+			print_word_and_meaning(current_word);
+			reduce_words_left();
+		}
+		
+		function toggle_meaning(){
+			var e = document.getElementById('meaning');
+			   if(e.style.display == 'block')
+				  e.style.display = 'none';
+			   else
+				  e.style.display = 'block';
+		}
+		function hide_meaning(){
+			//document.getElementById("meaning").styl.visibility = "hidden";
+			document.getElementById('meaning').style.display = 'none';
+		}
+		function print_word_and_meaning(rawString){
+			//alert(rawString.type);
+			var arr = rawString.split(',');
+			//alert(arr[0]+"||"+arr[1]);
+			document.getElementById("word").innerHTML=arr[0];
+			document.getElementById("meaning").innerHTML=arr[1];
+		}
+		function reduce_words_left(){
+			set_words_left(get_words_left()-1);
+		}
+		function get_words_left(){
+			return document.getElementById("num_words").innerHTML;
+		}
+		
+		function set_words_left(value_to_be_set){
+			document.getElementById("num_words").innerHTML=value_to_be_set;
+		}
+		
+	  </script>
+   </HEAD>
+   <BODY onload="runNinu();">
+   <div class="w3-row-padding">
+	   <table style="border-style: outset;">
+		<tr>
+			<td>Word</td>
+			<td id="word">Word</td>
+		</tr>
+		<tr id = "meaning_row" style="height:105%;">
+			<td>Meaning</td>
+			<td style="height:75px;"><p id="meaning" >Meaning</p></td>
+		</tr>
+		<tr>
+			<td style="width:50%;">Number of Words Remaining</td>
+			<td id="num_words" >num_words</td>
+		</tr>
+	   </table>
+	   <div style="position:absolute;bottom:50%;width:100%; margin:auto;">
+	   <button type="button" onclick="runNinuIteration();" style="width:49%; margin: auto;">Next Word</button>
+	   <button type="button" onclick="toggle_meaning();" style="width:49%; margin: auto;">Toggle Meaning</button>
+	   </div>
+	</div>
+   </BODY>
+</HTML>

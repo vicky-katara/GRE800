@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://www4.ncsu.edu/~vpkatara/GRE800/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./index_files/w3.css">
+   
+      <title>Word Test</title>
+	  <script type="text/javascript">
+   <!--
+      // Form validation code will come here.
+	  function onLoading()
+	  {
+		document.numWordsForm.start_index.focus() ;
+	  }
+      function validate()
+      {
+	  
+	     if (isNaN(document.numWordsForm.start_index.value)) 
+         {
+            alert( "Please enter a number for Start Index" );
+            document.numWordsForm.start_index.focus() ;
+            return false;
+         }
+		 
+		 if( document.numWordsForm.start_index.value == "" )
+         {
+            alert( "I need the start_index!" );
+            document.numWordsForm.start_index.focus() ;
+            return false;
+         }
+		 
+		 if( document.numWordsForm.start_index.value < 0  )
+         {
+            alert( "Start Index cannot be negative!" );
+            document.numWordsForm.start_index.focus() ;
+            return false;
+         }
+		 if( document.numWordsForm.start_index.value > 800  )
+         {
+            alert( "Start Index cannot be greater than 800?" );
+            document.numWordsForm.start_index.focus() ;
+            return false;
+         }
+      ///////////////////////////////////////////////////////////////////
+         if (isNaN(document.numWordsForm.end_index.value)) 
+         {
+            alert( "Please enter a number for End Index" );
+            document.numWordsForm.end_index.focus() ;
+            return false;
+         }
+		 
+		 if( document.numWordsForm.end_index.value == "" )
+         {
+            alert( "I need the end_index!" );
+            document.numWordsForm.end_index.focus() ;
+            return false;
+         }
+		 
+		 if( document.numWordsForm.end_index.value < 0  )
+         {
+            alert( "End Index cannot be negative!" );
+            document.numWordsForm.end_index.focus() ;
+            return false;
+         }
+		 if( document.numWordsForm.end_index.value > 800  )
+         {
+            alert( "End Index cannot be greater than 800?" );
+            document.numWordsForm.end_index.focus() ;
+            return false;
+         }
+		 return true;
+      }
+   //-->
+</script>
+   </head>
+   <body onload="onLoading();">
+   <div class="w3-row-padding">
+	   <div class="w3-third">
+			<form onsubmit="return(validate());" action="http://www4.ncsu.edu/~vpkatara/GRE800/test.html" method="GET" target="_self" name="numWordsForm">
+			  Start Index:<br>
+			  <input type="text" name="start_index" autocomplete="off" style="margin: 0 auto;" vk_19bee="subscribed"><br>
+			  End Index:<br>
+			  <input type="text" name="end_index" autocomplete="off" style="margin: 0 auto;" vk_19bee="subscribed">
+			  <br><br><br>
+				<input type="radio" name="difficulty" value="25">Simple (25%)<br><br>
+				<input type="radio" name="difficulty" value="50" checked="">Medium (50%)<br><br>
+				<input type="radio" name="difficulty" value="75">Difficult (75%)<br><br>
+				<input type="radio" name="difficulty" value="100">Complete (100%)<br><br><br>
+			  <input type="submit" value="Begin Test!">
+			</form>
+			</div>
+	</div>
+   
+</body></html>
